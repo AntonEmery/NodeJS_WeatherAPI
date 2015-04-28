@@ -31,7 +31,7 @@ function getWeather() {
 };
 
 function getZip() {
-	var ziplatlong = http.get('http://maps.googleapis.com/maps/api/geocode/json?address=97203', function(response){
+	var ziplatlong = http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + process.argv[2], function(response){
 			response.on('data', function(chunk){
 			zipData+=chunk;
 			console.log(zipData);	
