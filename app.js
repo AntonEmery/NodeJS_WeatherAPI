@@ -1,5 +1,7 @@
 var https = require('https');
+var http = require('http');
 var data = "";
+var zipData = "";
 
 
 function getWeather() {
@@ -17,6 +19,7 @@ function getWeather() {
 				var body = JSON.parse(data);
 				//print out the weather summary
 				console.log(body.currently.summary);
+				console.log(process.argv);
 			})
 
 			//logs result or error
@@ -25,7 +28,18 @@ function getWeather() {
 				console.log('Got error ' + error.message);
 			})
 		})
-
 };
 
-getWeather();
+function getZip() {
+	var ziplatlong = http.get('http://maps.googleapis.com/maps/api/geocode/json?address=97203', function(response){
+			response.on('data', function(chunk){
+			zipData+=chunk;
+			console.log(zipData);	
+			})
+			console.log('Result ' + response.statusCode);
+	})
+}
+
+getZip();	
+
+//getWeather();
