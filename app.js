@@ -19,7 +19,8 @@ function getWeather() {
 				var body = JSON.parse(data);
 				//print out the weather summary
 				console.log(body.currently.summary);
-				console.log(process.argv);
+				//logs the node envir and the name of the file
+				//console.log(process.argv);
 			})
 
 			//logs result or error
@@ -39,8 +40,7 @@ function getZip() {
 				//parse result after it is done
 				response.on('end', function(){
 				zipResult = JSON.parse(zipData);
-				console.log(zipData.address_components	);
-				//console.log(zipData.location.lng);
+				console.log(zipResult.results[0].geometry);
 				})
 				console.log('Result ' + response.statusCode);
 			})
