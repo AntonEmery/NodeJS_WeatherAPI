@@ -32,13 +32,20 @@ function getWeather() {
 
 function getZip() {
 	var ziplatlong = http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + process.argv[2], function(response){
-			response.on('data', function(chunk){
-			zipData+=chunk;
-			console.log(zipData);	
+				response.on('data', function(chunk){
+				zipData+=chunk;
+				})
+
+				//parse result after it is done
+				response.on('end', function(){
+				zipResult = JSON.parse(zipData);
+				console.log(zipData.address_components	);
+				//console.log(zipData.location.lng);
+				})
+				console.log('Result ' + response.statusCode);
 			})
-			console.log('Result ' + response.statusCode);
-	})
-}
+	}
+
 
 getZip();	
 
