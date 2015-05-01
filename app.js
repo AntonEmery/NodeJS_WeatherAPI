@@ -2,11 +2,12 @@ var https = require('https');
 var http = require('http');
 var data = "";
 var zipData = "";
-var answer = getLatLng();
+var answer;
+var zipBoth;
 
 function getWeather() {
     var weather = https.get(
-        'https://api.forecast.io/forecast/5a6971beaded415ef73e686e73f6be02/' + answer,  //39.9129412, -104.7956055  
+        'https://api.forecast.io/forecast/5a6971beaded415ef73e686e73f6be02/' + zipBoth,  //39.9129412, -104.7956055  
         function(response) {
             //as data comes in chunks, adds it to the data var
             response.on('data', function(chunk) {
@@ -18,7 +19,7 @@ function getWeather() {
                 //parse data, assign to body var
                 var body = JSON.parse(data);
                 //print out the weather summary
-                console.log(body.currently.summary);
+                console.log('Local weather is ' + body.currently.summary);
             })
 
             //logs result or error
@@ -47,19 +48,17 @@ function getLatLng() {
             //need to get these variables into the getWeather function
             var zipLat = zipResult.results[0].geometry.location.lat;
             var zipLng = zipResult.results[0].geometry.location.lng;
-            var zipBoth = zipLat + ", " + zipLng;
+            zipBoth = zipLat + ", " + zipLng;
             console.log(zipBoth);
-            return zipBoth;
-            
+            console.log('getLatLng Result ' + response.statusCode);
+            getWeather();
         })
-        console.log('getLatLng Result ' + response.statusCode);
-
     })
 }
 
        
 
-//getWeather();
+getLatLng();
 
 
 
