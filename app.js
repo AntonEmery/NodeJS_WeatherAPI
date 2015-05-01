@@ -2,12 +2,11 @@ var https = require('https');
 var http = require('http');
 var data = "";
 var zipData = "";
-
-
+var answer = getLatLng();
 
 function getWeather() {
     var weather = https.get(
-        'https://api.forecast.io/forecast/5a6971beaded415ef73e686e73f6be02/39.9129412, -104.7956055',
+        'https://api.forecast.io/forecast/5a6971beaded415ef73e686e73f6be02/' + answer,  //39.9129412, -104.7956055  
         function(response) {
             //as data comes in chunks, adds it to the data var
             response.on('data', function(chunk) {
@@ -23,14 +22,14 @@ function getWeather() {
             })
 
             //logs result or error
-            console.log('Result ' + response.statusCode);
+            console.log('Result getWeather ' + response.statusCode);
               response.on('error', function(error) {
                 console.log('Got error ' + error.message);
             })
         })
 };
 
-function getZip() {
+function getLatLng() {
     var ziplatlong = http.get('http://maps.googleapis.com/maps/api/geocode/json?address=' + process.argv[2], function(response) {
 
         //assign chunks of zipData as they come in
@@ -48,13 +47,20 @@ function getZip() {
             //need to get these variables into the getWeather function
             var zipLat = zipResult.results[0].geometry.location.lat;
             var zipLng = zipResult.results[0].geometry.location.lng;
+            var zipBoth = zipLat + ", " + zipLng;
+            console.log(zipBoth);
+            return zipBoth;
+            
         })
-        console.log('Result ' + response.statusCode);
+        console.log('getLatLng Result ' + response.statusCode);
+
     })
-    getWeather();
 }
 
-
-getZip();
+       
 
 //getWeather();
+
+
+
+
