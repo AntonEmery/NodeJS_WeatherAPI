@@ -1,6 +1,7 @@
 var https = require('https');
 var http = require('http');
 var prompt = require('prompt');
+var config = require('./config.js');
 var data = "";
 var zipData = "";
 var answer;
@@ -18,10 +19,10 @@ prompt.get('zipcode', function (error, result){
 })
 function getWeather() {
 		var weather = https.get(
-				'https://api.forecast.io/forecast/5a6971beaded415ef73e686e73f6be02/' + zipBoth,  //39.9129412, -104.7956055
+				'https://api.forecast.io/forecast/' + config.apiKey + '/' + zipBoth,  //39.9129412, -104.7956055
 				function(response) {
 					//as data comes in chunks, adds it to the data var
-						response.on('data', function(chunk) {
+						response.on('data', function (chunk) {
 								data += chunk;
 						})
 
